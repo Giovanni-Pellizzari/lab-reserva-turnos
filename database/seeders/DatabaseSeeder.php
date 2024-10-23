@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role; // Importar el modelo Role
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Crear roles
+        Role::create(['name' => 'user']);
+        Role::create(['name' => 'provider']);
 
-        User::factory()->create([
+        // Crear un usuario de prueba y asignar el rol "user"
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        $user->assignRole('user');
+
+        // Crear un proveedor de servicios de prueba y asignar el rol "provider"
+        $provider = User::factory()->create([
+            'name' => 'Test Provider',
+            'email' => 'provider@example.com',
+        ]);
+        $provider->assignRole('provider');
     }
 }
